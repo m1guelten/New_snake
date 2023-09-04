@@ -78,7 +78,7 @@ while running and snake.alive:
 
     if snake_speed > snake_speed_limit:
         snake.move()
-        wall_collision(snake)
+        snake.alive = wall_collision(snake)
         snake_speed = 0
 
     if len(snake.tail) == 4:
