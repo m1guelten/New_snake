@@ -34,6 +34,12 @@ class Snake:
                     ),
                 )
 
+    def collision_myself(self):
+        for item in self.tail:
+            if item['x'] == self.x and item['y'] == self.y:
+                return False
+        return True
+
     def move(self):
         if len(self.tail) > 0:
             self.rewrite_tail()
@@ -49,7 +55,7 @@ class Snake:
 
         if self.vector == "RIGHT":
             self.x += SQUARE_WIDTH
-        # self._collision_myself()
+        self.alive = self.collision_myself()
         self.head = pg.Rect(self.x, self.y, SQUARE_WIDTH - 1, SQUARE_HEIGHT - 1)
 
     def rewrite_tail(self):

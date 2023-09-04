@@ -34,10 +34,14 @@ apple = Apple(
     SQUARE_WIDTH * random.choice(range(NUM_X)),
     SQUARE_HEIGHT * random.choice(range(NUM_Y)),
 )
-
-
+snake_speed = 0
+snake_vector = pygame.K_RIGHT
+snake_speed_limit = 40
+#
 while running and snake.alive:
 
+#     # poll for events
+#     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -50,20 +54,50 @@ while running and snake.alive:
                 snake.vector = "LEFT"
             if event.key == pygame.K_RIGHT and snake.vector != "LEFT":
                 snake.vector = "RIGHT"
-            snake.move()
-        wall_collision(snake)
+
+    snake_speed += 1
 
     if snake.x == apple.x and snake.y == apple.y:
         snake.tail.append({"x": snake.x, "y": snake.y})
+        generate = True
+        ran_x, ran_y = None, None
+        while generate:
+            generate = False
+            ran_x, ran_y = SQUARE_WIDTH * random.choice(
+                range(NUM_X)
+            ), SQUARE_HEIGHT * random.choice(range(NUM_Y))
+            for item in snake.tail:
+                if item == {"x": ran_x, "y": ran_y}:
+                    generate = True
+            apple = Apple(ran_x, ran_y)
+
         apple = Apple(
             SQUARE_WIDTH * random.choice(range(NUM_X)),
             SQUARE_HEIGHT * random.choice(range(NUM_Y)),
         )
+
+    if snake_speed > snake_speed_limit:
+        snake.move()
+        wall_collision(snake)
+        snake_speed = 0
+
+    if len(snake.tail) == 4:
+        snake_speed_limit = 30
+    elif len(snake.tail) == 9:
+        snake_speed_limit = 20
+    elif len(snake.tail) == 19:
+        snake_speed_limit = 15
+    elif len(snake.tail) > 28:
+        snake_speed_limit = 10
+
+
     screen.fill("purple")
+
     snake.draw(screen)
     apple.draw(screen)
     pygame.display.flip()
-    clock.tick(60)  # limits FPS to 60
+
+    clock.tick(60)
 
 
 pygame.quit()
