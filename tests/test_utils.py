@@ -1,4 +1,4 @@
-from constants import SQUARE_WIDTH,SQUARE_HEIGHT
+from constants import SQUARE_WIDTH, SQUARE_HEIGHT
 from utils import generate_position
 
 

@@ -14,20 +14,30 @@ def snake(request):
 def apple(request):
     return Apple(request.param)
 
+
 @pytest.mark.parametrize(
-    ("snake", "result"), [((120, 120), True),
-                          ((120, 1200), False),
-                          ((1200, 120), False),
-                          ((120, -120), False),
-                          ((-120, 120), False),
-                          ], indirect=["snake"],)
+    ("snake", "result"),
+    [
+        ((120, 120), True),
+        ((120, 1200), False),
+        ((1200, 120), False),
+        ((120, -120), False),
+        ((-120, 120), False),
+    ],
+    indirect=["snake"],
+)
 def test_wall_collision(snake, result):
     assert wall_collision(snake) is result
 
+
 @pytest.mark.parametrize(
-    ("snake", "apple", "result"), [ ((120, 120), (120, 120), True),
-                                    ((120, 120), (140, 120), False),
-                                    ((120, 120), (120, 140), False),
-                                    ], indirect=["snake", "apple"],)
+    ("snake", "apple", "result"),
+    [
+        ((120, 120), (120, 120), True),
+        ((120, 120), (140, 120), False),
+        ((120, 120), (120, 140), False),
+    ],
+    indirect=["snake", "apple"],
+)
 def test_apple_collision(snake, apple, result):
-    assert apple_collision(snake,apple) is result
+    assert apple_collision(snake, apple) is result
