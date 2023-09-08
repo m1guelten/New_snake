@@ -1,3 +1,7 @@
+"""
+constants
+"""
+
 SQUARE_WIDTH, SQUARE_HEIGHT = 30, 30
 
 NUM_X, NUM_Y = 30, 20
